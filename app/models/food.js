@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Food', {
-    text: {
+    foodName: {
         type: String,
-        default: ''
+        default: 'name'
+    },
+    price: {
+        type: Number,
+        default: 0
     }
 });

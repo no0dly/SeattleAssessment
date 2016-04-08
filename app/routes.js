@@ -23,7 +23,6 @@ module.exports = function (app) {
 
     // create food and send back all food after creation
     app.post('/api/foodAll', function (req, res) {
-
         // create a food, information comes from AJAX request from Angular
         Food.create({
             text: req.body.text,

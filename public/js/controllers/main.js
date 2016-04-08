@@ -4,7 +4,6 @@ angular.module('foodController', [])
 	.controller('mainController', ['$scope','$http','FoodAll', function($scope, $http, FoodAll) {
 		$scope.formData = {};
 		$scope.loading = true;
-
 		// GET =====================================================================
 		// when landing on the page, get all food and show them
 		// use the service to get all the food
@@ -20,7 +19,7 @@ angular.module('foodController', [])
 
 			// validate the formData to make sure that something is there
 			// if form is empty, nothing will happen
-			if ($scope.formData.text != undefined) {
+			if ($scope.formData.foodName != undefined && $scope.formData.price != undefined ) {
 				$scope.loading = true;
 
 				// call the create function from our service (returns a promise object)
@@ -47,4 +46,14 @@ angular.module('foodController', [])
 					$scope.foodAll = data; // assign our new list of food
 				});
 		};
+
+		$scope.total = function() {
+			$scope.loading = true;
+			FoodAll.get()
+				.success(function(data) {
+					$scope.loading = true;
+					console.log(data);
+				});
+		};
+
 	}]);

@@ -17,11 +17,35 @@
 		body 					{ padding-top:50px; }
 		#food-list 				{ margin-bottom:30px; }
 		#food-form 	 			{ margin-bottom:50px; }
+
+		.bar {
+			fill: steelblue;
+		}
+
+		.bar:hover {
+			fill: brown;
+		}
+
+		.axis {
+			font: 10px sans-serif;
+		}
+
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: #000;
+			shape-rendering: crispEdges;
+		}
+
+		.x.axis path {
+			display: none;
+		}
+
 	</style>
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
-
+	<script src="js/vendors/d3.js"></script> <!-- d3js -->
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/services/foodAll.js"></script> <!-- load our food service -->
 	<script src="js/core.js"></script> <!-- load our main application -->
@@ -33,7 +57,7 @@
 
 		<!-- HEADER AND Food COUNT -->
 		<div class="jumbotron text-center">
-			<h1> Food counter <span class="label label-info">{{ foodAll.length }}</span></h1>
+			<h1> Food counter </h1>
 		</div>
 
 		<!-- Food LIST -->
@@ -56,10 +80,14 @@
 			</div>
 		</div>
 
+		<div id="food-total" class="row">
+			<p class="text-right col-sm-12">{{total}}</p>
+		</div>
+
 		<!-- FORM TO CREATE food -->
 		<div id="food-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
+				<form class="row">
 					<div class="form-group col-xs-6">
 						<!-- BIND THIS VALUE TO formData.foodName IN ANGULAR -->
 						<input type="text" class="form-control input-lg" placeholder="Food name" ng-model="formData.foodName">
@@ -69,13 +97,23 @@
 						<input type="number" class="form-control input-lg" placeholder="Food price" ng-model="formData.price">
 					</div>
 
+					<hr/>
+
 					<!-- createFood() WILL CREATE NEW food -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()">Add</button>
-					<button type="submit" class="btn btn-success btn-lg" ng-click="total()">Total</button>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()">Add</button>
+						<button type="submit" class="btn btn-success btn-lg" ng-click="total()">Total</button>
+					</div>
+					<div class="showGraf">
+						<input type="checkbox" ng-model = "showGrafics"> See grafics
+					</div>
 				</form>
 			</div>
 		</div>
-
+		
+		<div id="food-analyse" class="row">
+			
+		</div>
 	</div>
 
 </body>

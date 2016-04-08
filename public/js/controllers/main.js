@@ -49,10 +49,16 @@ angular.module('foodController', [])
 
 		$scope.total = function() {
 			$scope.loading = true;
-			FoodAll.get()
+			FoodAll.total()
 				.success(function(data) {
-					$scope.loading = true;
-					console.log(data);
+					$scope.loading = false;
+
+					$scope.total = 0;
+					data.forEach(function(val) {
+						$scope.total += val.price;
+					});
+
+					$scope.total = 'Your total is $' + ($scope.total + ($scope.total * 0.075));
 				});
 		};
 

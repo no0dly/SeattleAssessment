@@ -25,7 +25,9 @@ module.exports = function (app) {
     app.post('/api/foodAll', function (req, res) {
         // create a food, information comes from AJAX request from Angular
         Food.create({
-            text: req.body.text,
+            // text: req.body.text,
+            foodName: req.body.foodName,
+            price: req.body.price,
             done: false
         }, function (err, food) {
             if (err)

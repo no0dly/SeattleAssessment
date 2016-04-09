@@ -8,5 +8,9 @@ module.exports = mongoose.model('Food', {
     price: {
         type: Number,
         default: 0
+    },
+    wasDeleted: {
+        type: Boolean,
+        default: false
     }
 });

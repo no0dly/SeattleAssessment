@@ -1,0 +1,50 @@
+<!-- HEADER AND Food COUNT -->
+<div class="jumbotron text-center">
+    <h1> Food counter </h1>
+</div>
+
+<!-- Food LIST -->
+<div id="food-list" class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+
+        <!-- LOOP OVER THE Foodall IN $scope.foodAll -->
+        <div class="checkbox" ng-repeat="food in foodAll | filter: food.wasDeleted == false">
+            <label>
+                <input type="checkbox" ng-click="deleteFood(food._id)"> {{ food.foodName }} -- ${{ food.price }}
+            </label>
+        </div>
+
+        <p class="text-center" ng-show="loading">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </p>
+
+    </div>
+</div>
+
+<div id="food-total" class="row">
+    <p class="text-right col-sm-12">{{total}}</p>
+</div>
+
+<!-- FORM TO CREATE food -->
+<div id="food-form" class="row">
+    <div class="col-sm-8 col-sm-offset-2 text-center">
+        <form class="row">
+            <div class="form-group col-xs-6">
+                <!-- BIND THIS VALUE TO formData.foodName IN ANGULAR -->
+                <input type="text" class="form-control input-lg" placeholder="Food name" ng-model="formData.foodName">
+            </div>
+            <div class="form-group col-xs-6">
+                <!-- BIND THIS VALUE TO formData.price IN ANGULAR -->
+                <input type="number" class="form-control input-lg" placeholder="Food price" ng-model="formData.price">
+            </div>
+
+            <hr/>
+
+            <!-- createFood() WILL CREATE NEW food -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()">Add</button>
+                <button type="submit" class="btn btn-success btn-lg" ng-click="total()">Total</button>
+            </div>
+        </form>
+    </div>
+</div>

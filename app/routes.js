@@ -40,14 +40,15 @@ module.exports = function (app) {
 
     // delete a food
     app.delete('/api/foodAll/:food_id', function (req, res) {
-        Food.remove({
-            _id: req.params.food_id
-        }, function (err, food) {
-            if (err)
-                res.send(err);
+        Food.update(
+            {_id: req.params.food_id},
+            {$set: {wasDeleted: true} },
+            function (err, food) {
+                if (err)
+                    res.send(err);
 
-            getFoodAll(res);
-        });
+                getFoodAll(res);
+            });
     });
 
     // get total

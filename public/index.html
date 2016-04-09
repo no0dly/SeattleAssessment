@@ -17,35 +17,10 @@
 		body 					{ padding-top:50px; }
 		#food-list 				{ margin-bottom:30px; }
 		#food-form 	 			{ margin-bottom:50px; }
-
-		.bar {
-			fill: steelblue;
-		}
-
-		.bar:hover {
-			fill: brown;
-		}
-
-		.axis {
-			font: 10px sans-serif;
-		}
-
-		.axis path,
-		.axis line {
-			fill: none;
-			stroke: #000;
-			shape-rendering: crispEdges;
-		}
-
-		.x.axis path {
-			display: none;
-		}
-
 	</style>
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
-	<script src="js/vendors/d3.js"></script> <!-- d3js -->
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/services/foodAll.js"></script> <!-- load our food service -->
 	<script src="js/core.js"></script> <!-- load our main application -->
@@ -54,7 +29,6 @@
 <!-- SET THE CONTROLLER -->
 <body ng-controller="mainController">
 	<div class="container">
-
 		<!-- HEADER AND Food COUNT -->
 		<div class="jumbotron text-center">
 			<h1> Food counter </h1>
@@ -64,10 +38,8 @@
 		<div id="food-list" class="row">
 			<div class="col-sm-4 col-sm-offset-4">
 
-				
-
 				<!-- LOOP OVER THE Foodall IN $scope.foodAll -->
-				<div class="checkbox" ng-repeat="food in foodAll">
+				<div class="checkbox" ng-repeat="food in foodAll | filter: food.wasDeleted == false">
 					<label>
 						<input type="checkbox" ng-click="deleteFood(food._id)"> {{ food.foodName }} -- ${{ food.price }}
 					</label>
@@ -81,7 +53,7 @@
 		</div>
 
 		<div id="food-total" class="row">
-			<p class="text-right col-sm-12">{{total}}</p>
+			<p class="text-right col-sm-12">{{phrase}}</p>
 		</div>
 
 		<!-- FORM TO CREATE food -->
@@ -104,15 +76,58 @@
 						<button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()">Add</button>
 						<button type="submit" class="btn btn-success btn-lg" ng-click="total()">Total</button>
 					</div>
-					<div class="showGraf">
-						<input type="checkbox" ng-model = "showGrafics"> See grafics
-					</div>
 				</form>
 			</div>
 		</div>
-		
-		<div id="food-analyse" class="row">
-			
+
+		<div id="food-history">
+			<div class="form-group">
+				<div class="checkbox text-center">
+					<label>
+						<input type="checkbox" ng-model="showed" class="hide">
+						show / hide history
+					</label>
+				</div>
+			</div>
+			<div id="history-result">
+				<table class="table" ng-show="showed">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>
+								<a href="#" ng-click="sortType = 'foodName'; sortReverse = !sortReverse">
+									Title
+									<span ng-show="sortType == 'foodName' && !sortReverse" class="fa fa-caret-down"></span>
+									<span ng-show="sortType == 'foodName' && sortReverse" class="fa fa-caret-up"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="sortType = 'price'; sortReverse = !sortReverse">
+									Price
+									<span ng-show="sortType == 'price' && !sortReverse" class="fa fa-caret-down"></span>
+									<span ng-show="sortType == 'price' && sortReverse" class="fa fa-caret-up"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="sortType = 'wasDeleted'; sortReverse = !sortReverse">
+									Status
+									<span ng-show="sortType == 'wasDeleted' && !sortReverse" class="fa fa-caret-down"></span>
+									<span ng-show="sortType == 'wasDeleted' && sortReverse" class="fa fa-caret-up"></span>
+								</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="food in foodAll | orderBy:sortType:sortReverse">
+							<td>{{$index + 1}}</td>
+							<td>{{food.foodName}}</td>
+							<td>${{food.price}}</td>
+							<td class="text-danger" ng-show="food.wasDeleted">Removed</td>
+							<td class="text-success" ng-show="!food.wasDeleted">In list</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 

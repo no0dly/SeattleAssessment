@@ -1,5 +1,4 @@
 angular.module('foodController', [])
-
 	// inject the food service factory into our controller
 	.controller('mainController', ['$scope','$http','FoodAll', function($scope, $http, FoodAll) {
 		$scope.formData = {};
@@ -49,17 +48,24 @@ angular.module('foodController', [])
 
 		$scope.total = function() {
 			$scope.loading = true;
+			$scope.totalCount = 0;
+			$scope.phrase = '';
+
 			FoodAll.total()
 				.success(function(data) {
 					$scope.loading = false;
-
-					$scope.total = 0;
 					data.forEach(function(val) {
-						$scope.total += val.price;
+						if(!val.wasDeleted) {
+							$scope.totalCount += val.price;
+						}
 					});
 
-					$scope.total = 'Your total is $' + ($scope.total + ($scope.total * 0.075));
+					$scope.totalCount = $scope.totalCount + ($scope.totalCount * 0.075);
+					$scope.phrase = 'Your total is $' + $scope.totalCount;
 				});
 		};
 
+		//sorting
+		$scope.sortType 	= '';
+		$scope.sortReverse  = false;
 	}]);
